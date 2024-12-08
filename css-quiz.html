@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Quiz</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #eaf2f8;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 2px solid #3498db;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .question {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    .options {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .options label {
+      display: block;
+      font-size: 1em;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #ecf0f1;
+      border: 1px solid #bdc3c7;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .options label:hover {
+      background-color: #3498db;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .options input {
+      margin-right: 10px;
+    }
+
+    button {
+      font-size: 1em;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    button:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #7f8c8d;
+    }
+  </style>
+</head>
+<body>
+  <h1>CSS Quiz</h1>
+  <div id="quizContainer" class="quiz-container">
+    <p id="question" class="question"></p>
+    <div class="options">
+      <label>
+        <input onchange="enableBtn()" value="1" type="radio" name="answer" />
+        <span id="option1"></span>
+      </label>
+      <label>
+        <input onchange="enableBtn()" value="2" type="radio" name="answer" />
+        <span id="option2"></span>
+      </label>
+      <label>
+        <input onchange="enableBtn()" value="3" type="radio" name="answer" />
+        <span id="option3"></span>
+      </label>
+    </div>
+    <button id="btn" disabled onclick="nextQuestion()">Next</button>
+  </div>
+
+  <footer>
+    <p>Enhance your CSS skills with this quiz!</p>
+  </footer>
+
+  <script>
+    var questions = [
+  {
+    question: "What does CSS stand for?",
+    option1: "Cascading Style Sheets",
+    option2: "Colorful Style Sheets",
+    option3: "Creative Style System",
+    correctAnswer: "Cascading Style Sheets",
+  },
+  {
+    question: "Which CSS property controls the text color?",
+    option1: "color",
+    option2: "font-color",
+    option3: "text-color",
+    correctAnswer: "color",
+  },
+  {
+    question: "How do you add a background color in CSS?",
+    option1: "background: color;",
+    option2: "color: background;",
+    option3: "bg-color: color;",
+    correctAnswer: "background: color;",
+  },
+  {
+    question: "Which property is used to change the font size?",
+    option1: "font-style",
+    option2: "font-size",
+    option3: "text-size",
+    correctAnswer: "font-size",
+  },
+  {
+    question: "What is the correct syntax to make all text bold?",
+    option1: "font-bold: true;",
+    option2: "font-weight: bold;",
+    option3: "text-style: bold;",
+    correctAnswer: "font-weight: bold;",
+  },
+  {
+    question: "Which tag is used to define an internal CSS?",
+    option1: "<css>",
+    option2: "<style>",
+    option3: "<script>",
+    correctAnswer: "<style>",
+  },
+  {
+    question: "Which property is used to set the spacing between lines?",
+    option1: "letter-spacing",
+    option2: "line-height",
+    option3: "spacing",
+    correctAnswer: "line-height",
+  },
+  {
+    question: "How do you select elements with a class name 'example' in CSS?",
+    option1: "#example",
+    option2: ".example",
+    option3: "example",
+    correctAnswer: ".example",
+  },
+  {
+    question: "What is the correct syntax to link an external CSS file?",
+    option1: "<link rel='stylesheet' href='style.css'>",
+    option2: "<style rel='stylesheet' src='style.css'>",
+    option3: "<css link='style.css'>",
+    correctAnswer: "<link rel='stylesheet' href='style.css'>",
+  },
+  {
+    question: "Which property is used to create space between elements?",
+    option1: "padding",
+    option2: "margin",
+    option3: "border",
+    correctAnswer: "margin",
+  },
+];
+
+var ques = document.getElementById("question");
+var option1 = document.getElementById("option1");
+var option2 = document.getElementById("option2");
+var option3 = document.getElementById("option3");
+var button = document.getElementById("btn");
+var index = 0;
+var score = 0;
+
+function nextQuestion() {
+  var options = document.getElementsByName("answer");
+  for (var i = 0; i < options.length; i++) {
+    if (options[i].checked) {
+      var selected = options[i].value;
+      var userAnswer = questions[index - 1][`option${selected}`];
+      var correctAns = questions[index - 1].correctAnswer;
+      if (userAnswer === correctAns) {
+        score++;
+      }
+      options[i].checked = false;
+    }
+  }
+
+  if (index > questions.length - 1) {
+    alert(`Quiz Over! Your score: ${score}/${questions.length}`);
+  } else {
+    ques.innerText = questions[index].question;
+    option1.innerText = questions[index].option1;
+    option2.innerText = questions[index].option2;
+    option3.innerText = questions[index].option3;
+    index++;
+    button.disabled = true;
+  }
+}
+
+nextQuestion();
+
+function enableBtn() {
+  button.disabled = false;
+}
+
+  </script>
+</body>
+</html>

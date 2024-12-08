@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Quiz</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #eaf2f8;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 2px solid #3498db;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .question {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    .options {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .options label {
+      display: block;
+      font-size: 1em;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #ecf0f1;
+      border: 1px solid #bdc3c7;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .options label:hover {
+      background-color: #3498db;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .options input {
+      margin-right: 10px;
+    }
+
+    button {
+      font-size: 1em;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    button:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #7f8c8d;
+    }
+  </style>
+</head>
+<body>
+  <h1>CSS Quiz</h1>
+  <div id="quizContainer" class="quiz-container">
+    <p id="question" class="question"></p>
+    <div class="options">
+      <label>
+        <input onchange="enableBtn()" value="1" type="radio" name="answer" />
+        <span id="option1"></span>
+      </label>
+      <label>
+        <input onchange="enableBtn()" value="2" type="radio" name="answer" />
+        <span id="option2"></span>
+      </label>
+      <label>
+        <input onchange="enableBtn()" value="3" type="radio" name="answer" />
+        <span id="option3"></span>
+      </label>
+    </div>
+    <button id="btn" disabled onclick="nextQuestion()">Next</button>
+  </div>
+
+  <footer>
+    <p>Enhance your CSS skills with this quiz!</p>
+  </footer>
+
+  <script>
+var questions = [
+  {
+    question: "Inside which HTML element do we put JavaScript?",
+    option1: "<javascript>",
+    option2: "<js>",
+    option3: "<script>",
+    correctAnswer: "<script>",
+  },
+  {
+    question: "What does the <br> tag do in HTML?",
+    option1: "It creates a break line.",
+    option2: "It creates a new paragraph.",
+    option3: "It adds a border.",
+    correctAnswer: "It creates a break line.",
+  },
+  {
+    question: "Which HTML tag is used to define an image?",
+    option1: "<image>",
+    option2: "<img>",
+    option3: "<src>",
+    correctAnswer: "<img>",
+  },
+  {
+    question: "What is the correct HTML element for inserting a line break?",
+    option1: "<lb>",
+    option2: "<br>",
+    option3: "<break>",
+    correctAnswer: "<br>",
+  },
+  {
+    question: "How can you make a list that is ordered?",
+    option1: "<ol>",
+    option2: "<ul>",
+    option3: "<list>",
+    correctAnswer: "<ol>",
+  },
+  {
+    question: "Which tag is used to display a table in HTML?",
+    option1: "<table>",
+    option2: "<tab>",
+    option3: "<t>",
+    correctAnswer: "<table>",
+  },
+  {
+    question: "Which HTML tag is used to define a hyperlink?",
+    option1: "<a>",
+    option2: "<link>",
+    option3: "<href>",
+    correctAnswer: "<a>",
+  },
+  {
+    question: "Which attribute is used to provide the URL of an image?",
+    option1: "url",
+    option2: "src",
+    option3: "href",
+    correctAnswer: "src",
+  },
+  {
+    question: "What does the <meta> tag in HTML do?",
+    option1: "Defines metadata for the document",
+    option2: "Adds style to the page",
+    option3: "Defines a script",
+    correctAnswer: "Defines metadata for the document",
+  },
+  {
+    question: "Which HTML element is used to define the head section of a page?",
+    option1: "<head>",
+    option2: "<header>",
+    option3: "<section>",
+    correctAnswer: "<head>",
+  },
+];
+
+
+var ques = document.getElementById("question");
+var option1 = document.getElementById("option1");
+var option2 = document.getElementById("option2");
+var option3 = document.getElementById("option3");
+var button = document.getElementById("btn");
+var index = 0;
+var score = 0;
+
+function nextQuestion() {
+  var options = document.getElementsByName("answer");
+  for (var i = 0; i < options.length; i++) {
+    if (options[i].checked) {
+      var selected = options[i].value;
+      var userAnswer = questions[index - 1][`option${selected}`];
+      var correctAns = questions[index - 1].correctAnswer;
+      if (userAnswer === correctAns) {
+        score++;
+      }
+      options[i].checked = false;
+    }
+  }
+
+  if (index > questions.length - 1) {
+    alert(`Quiz Over! Your score: ${score}/${questions.length}`);
+  } else {
+    ques.innerText = questions[index].question;
+    option1.innerText = questions[index].option1;
+    option2.innerText = questions[index].option2;
+    option3.innerText = questions[index].option3;
+    index++;
+    button.disabled = true;
+  }
+}
+
+nextQuestion();
+
+function enableBtn() {
+  button.disabled = false;
+}
+
+  </script>
+</body>
+</html>
